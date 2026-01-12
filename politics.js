@@ -1,21 +1,22 @@
 const Politics = (() => {
-  let laws = { tax: 0.1 };
-  let title = "Merchant";
+  let taxRate = 10;
+  let title = "Händler";
 
-  function tick() {
-    if (Math.random() < 0.05) laws.tax += 0.01;
-  }
-
-  function bribe(amount, state) {
-    if (state.gold >= amount) {
-      state.gold -= amount;
-      laws.tax = Math.max(0.05, laws.tax - 0.02);
+  function bestechen(playerState){
+    const kosten = 50;
+    if(playerState.gold >= kosten){
+      playerState.gold -= kosten;
+      taxRate = Math.max(0, taxRate - 3);
+      UI.update(playerState);
       return true;
     }
     return false;
   }
 
-  function grantTitle(newTitle) { title = newTitle; }
+  function updateUI(){
+    document.getElementById("pol-tax").textContent = taxRate + "%";
+    document.getElementById("pol-title").textContent = title;
+  }
 
-  return { tick, bribe, grantTitle, get laws(){return laws;}, get title(){return title;} };
+  return {bestechen,updateUI,taxRate,title};
 })();
