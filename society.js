@@ -2,32 +2,26 @@ const Society = (() => {
   let happiness = 60;
   let faith = 50;
 
-  function update(playerState){
-    // Zufriedenheit sinkt bei wenig Gold
-    if(playerState.gold < 50) happiness -= 2;
-    if(happiness < 0) happiness = 0;
-    if(happiness > 100) happiness = 100;
+  function update(playerState, crime, politics, atmosphere){
+    // Grundzufriedenheit
+    happiness = 50 + (playerState.gold-500)*0.01 - crime.heat*0.2 - politics.taxRate*0.3;
 
-    // Religion beeinflusst Moral
-    if(faith < 30 && Math.random() < 0.3){
-      UI.showOverlay("Die Bevölkerung ist unruhig durch sinkenden Glauben!");
-    }
+    // Jahreszeit/Wetter
+    if(atmosphere.weather==="sturm") happiness -= 5;
+    if(atmosphere.time<6 || atmosphere.time>20) happiness -= 2;
 
-    // Aufstände
-    if(happiness < 30 && Math.random() < 0.3){
-      UI.showOverlay("Aufstand in der Bevölkerung! Handle schnell!");
-    }
+    // KI Markt-Aktionen
+    Object.values(AI.rivals).forEach(r=>{
+      happiness -= r.inventar.eisen*0.1; // Beispiel: Konkurrenz kauft Eisen → Preise steigen → Bevölkerung unzufrieden
+    });
 
-    // UI aktualisieren
-    document.getElementById("soc-happiness").textContent = happiness;
-    document.getElementById("soc-faith").textContent = faith;
+    // Limits
+    happiness = Math.min(100, Math.max(0, happiness));
+    document.getElementById("soc-happiness").textContent = Math.round(happiness);
+
+    // Overlay nur bei kritischen Werten
+    if(happiness<25) UI.showOverlay("Aufstand droht! Bevölkerung unruhig!");
   }
 
-  function adjustHappiness(amount){
-    happiness += amount;
-    if(happiness>100) happiness=100;
-    if(happiness<0) happiness=0;
-  }
-
-  return {update,adjustHappiness,happiness,faith};
+  return {update,happiness,faith};
 })();
