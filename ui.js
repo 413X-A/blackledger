@@ -55,10 +55,11 @@ const UI = (() => {
   }
 
   UI.showOverlay = (text)=>{
+    if(!text) return; // Keine Meldung → kein Overlay
     const overlay = document.getElementById("overlay");
     document.getElementById("overlayContent").textContent = text;
     overlay.classList.remove("hidden");
-  };
+};
 
   function init(){
     bindButtons();
