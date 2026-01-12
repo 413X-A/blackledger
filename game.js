@@ -1,95 +1,82 @@
 const Game = (() => {
   const state = {
-    day: 1,
-    phase: 1, // 1 village → 2 town → 3 realm → 4 empire
+    tag: 1,
     gold: 500,
-    rep: 50,
-    inventory: { grain:0, wood:0, iron:0 },
-    flags: { endgameUnlocked: false }
+    schulden: 0,
+    reputation: 50,
+    inventar: { korn:0, holz:0, eisen:0, wein:0, gewuerze:0, stoffe:0 },
+    // Flags für später: Endgame, Forschung etc.
+    flags: { endgameUnlocked:false }
   };
 
-  function advancePhaseIfNeeded() {
-    if (state.gold > 5000) state.phase = 2;
-    if (state.gold > 20000) state.phase = 3;
-    if (state.gold > 100000) state.phase = 4;
-  }
+  // Nächster Tag
+  function naechsterTag(){
+    state.tag++;
 
-  function checkVictory() {
-    if (state.flags.endgameUnlocked) return;
-    if (state.phase === 4 && state.rep > 90) {
-      state.flags.endgameUnlocked = true;
-      console.log("Endgame unlocked (to be continued).");
+    // Preise aktualisieren
+    Economy.updatePreise();
+
+    // Zufallsevent
+    const evt = Economy.zufallsEvent();
+    if(evt){
+      Economy.wendeEvent(evt);
+      let msg = "";
+      switch(evt){
+        case "ernten": msg = "Gute Nachricht: Eine reiche Ernte hat den Kornpreis gesenkt!"; break;
+        case "brand": msg = "Schlechte Nachricht: Ein Brand hat Teile des Holzbestands zerstört!"; break;
+        case "krieg": msg = "Alarm: Ein Krieg hat die Nachfrage nach Eisen erhöht!"; break;
+        case "inflation": msg = "Warnung: Inflation treibt die Preise in die Höhe!"; break;
+        case "schwarzmarkt": msg = "Geheim: Der Schwarzmarkt ist jetzt aktiv!"; break;
+      }
+      UI.showOverlay(msg);
     }
-  }
 
-  function nextDay() {
-    state.day++;
+    // KI-Runde
+    const aiMsg = AI.runde(Economy.markt, state);
+    if(aiMsg) UI.showOverlay(aiMsg);
 
-    Atmosphere.tick();
-    Society.tick();
-    Politics.tick();
-    Crime.tick();
-    Research.tick();
+    // Gesellschaftliche Events
+    if(state.reputation<30 && Math.random()<0.5){
+      UI.showOverlay("Aufstand in der Bevölkerung! Du musst handeln oder die Zufriedenheit sinkt weiter!");
+    }
 
-    const ev = Economy.randomEvent();
-    if (ev) Economy.applyEvent(ev);
-
-    const aiMsg = AI.takeTurn(Economy.market, state);
-    if (aiMsg) UI.log(aiMsg);
-
-    Economy.updatePrices();
-    advancePhaseIfNeeded();
-    checkVictory();
+    // UI aktualisieren
     UI.update(state);
   }
 
-  function buy(g) {
-    const p = Economy.market[g].price;
-    if (state.gold >= p) {
-      state.gold -= p;
-      state.inventory[g]++;
-      Economy.market[g].demand++;
-      Animations.goldFlash();
-      UI.log(`You bought ${g}`);
+  // Kaufen
+  function kaufen(ware){
+    const preis = Economy.getPreis(ware);
+    if(state.gold>=preis){
+      state.gold-=preis;
+      state.inventar[ware]++;
+      UI.log(`Du hast 1 ${ware} gekauft für ${preis.toFixed(1)} Gold.`);
+      UI.update(state);
     } else {
-      Animations.lossShake();
-      UI.log("Not enough gold!");
+      UI.showOverlay("Nicht genug Gold, um diese Ware zu kaufen!");
     }
   }
 
-  function sell(g) {
-    if (state.inventory[g] > 0) {
-      const p = Economy.market[g].price;
-      state.gold += p;
-      state.inventory[g]--;
-      Economy.market[g].supply++;
-      Animations.goldFlash();
-      UI.log(`You sold ${g}`);
+  // Verkaufen
+  function verkaufen(ware){
+    if(state.inventar[ware]>0){
+      const preis = Economy.getPreis(ware);
+      state.inventar[ware]--;
+      state.gold+=preis;
+      UI.log(`Du hast 1 ${ware} verkauft für ${preis.toFixed(1)} Gold.`);
+      UI.update(state);
+    } else {
+      UI.showOverlay("Keine Ware im Lager, um zu verkaufen!");
     }
   }
 
-  function initBindings() {
-    document.querySelectorAll(".buy").forEach(btn=>{
-      btn.onclick = e=>{
-        const g = e.target.closest(".good").dataset.id;
-        buy(g); UI.update(state);
-      };
-    });
-    document.querySelectorAll(".sell").forEach(btn=>{
-      btn.onclick = e=>{
-        const g = e.target.closest(".good").dataset.id;
-        sell(g); UI.update(state);
-      };
-    });
-    document.getElementById("nextDayBtn").onclick = nextDay;
-  }
-
-  function init() {
-    initBindings();
+  // Game starten
+  function init(){
+    document.getElementById("nextDayBtn").addEventListener("click", naechsterTag);
     UI.update(state);
-    UI.log("Welcome to Black Ledger.");
   }
 
-  return { init, nextDay, state };
+  return {state,naechsterTag,kaufen,verkaufen,init};
 })();
-window.onload = Game.init;
+
+window.addEventListener("load", Game.init);
