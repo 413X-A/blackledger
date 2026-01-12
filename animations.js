@@ -1,19 +1,9 @@
 const Animations = (() => {
-
-  function goldFlash() {
-    const el = document.getElementById("ui-gold");
-    el.animate(
-      [{color:"gold", transform:"scale(1.2)"},{color:"#f5e6c8", transform:"scale(1)"}],
-      {duration:400}
-    );
+  function highlightPanel(id){
+    const el = document.getElementById(id);
+    if(!el) return;
+    el.animate([{boxShadow:"0 0 0 gold"},{boxShadow:"0 0 15px gold"}],{duration:500,iterations:2});
   }
 
-  function lossShake() {
-    document.getElementById("game").animate(
-      [{transform:"translateX(0)"},{transform:"translateX(-5px)"},{transform:"translateX(5px)"},{transform:"translateX(0)"}],
-      {duration:300}
-    );
-  }
-
-  return { goldFlash, lossShake };
+  return {highlightPanel};
 })();
