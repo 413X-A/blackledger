@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Black Ledger</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <div id="game">
+
+    <header>
+      <h1>⚔️ Black Ledger</h1>
+      <div id="topStats">
+        Day <span id="ui-day">1</span> |
+        Gold <span id="ui-gold">500</span> |
+        Reputation <span id="ui-rep">50</span>
+      </div>
+    </header>
+
+    <main>
+      <section id="marketPanel">
+        <h2>Marketplace</h2>
+        <div class="good" data-id="grain">🌾 Grain <span class="price"></span>
+          <button class="buy">Buy</button>
+          <button class="sell">Sell</button>
+        </div>
+        <div class="good" data-id="wood">🪵 Wood <span class="price"></span>
+          <button class="buy">Buy</button>
+          <button class="sell">Sell</button>
+        </div>
+        <div class="good" data-id="iron">⛓ Iron <span class="price"></span>
+          <button class="buy">Buy</button>
+          <button class="sell">Sell</button>
+        </div>
+      </section>
+
+      <section id="inventoryPanel">
+        <h2>Storage</h2>
+        <ul>
+          <li>Grain: <span id="inv-grain">0</span></li>
+          <li>Wood: <span id="inv-wood">0</span></li>
+          <li>Iron: <span id="inv-iron">0</span></li>
+        </ul>
+      </section>
+
+      <section id="aiPanel">
+        <h2>Rival Guild</h2>
+        <p>Gold: <span id="ai-gold">500</span></p>
+        <p>Strategy: <span id="ai-style">Aggressive</span></p>
+      </section>
+    </main>
+
+    <footer>
+      <button id="nextDayBtn">Next Day ▶</button>
+      <div id="log"></div>
+    </footer>
+
+  </div>
+
+  <script src="economy.js"></script>
+  <script src="ai.js"></script>
+  <script src="animations.js"></script>
+  <script src="ui.js"></script>
+  <script src="game.js"></script>
+</body>
+</html>
