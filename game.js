@@ -5,8 +5,15 @@ const Game = (() => {
     state.tag++;
     document.getElementById("ui-day").textContent = state.tag;
 
-    Atmosphere.naechsteStunde();
+    Atmosphere.naechsterTag();
     Economy.updatePreise(Atmosphere, Society);
+    AI.runAll(state, Atmosphere, Crime, Politics, Society);
+    Society.update(state, Crime, Politics, Atmosphere);
+    UI.update(state);
+  }
+
+  function naechsteStunde(){
+    Atmosphere.naechsteStunde();
     AI.runAll(state, Atmosphere, Crime, Politics, Society);
     Society.update(state, Crime, Politics, Atmosphere);
     UI.update(state);
@@ -45,6 +52,6 @@ const Game = (() => {
     UI.update(state);
   }
 
-  return {state,naechsterTag,kaufen,verkaufen,init};
+  return {state,naechsterTag,naechsteStunde,kaufen,verkaufen,init};
 })();
 window.addEventListener("load", Game.init);
