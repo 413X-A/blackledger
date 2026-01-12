@@ -1,15 +1,26 @@
 const Research = (() => {
-  const tech = {
-    bookkeeping:false,
-    insurance:false,
-    exchange:false
+  let tech = {
+    buchhaltung:false,
+    versicherung:false,
+    boerse:false
   };
 
-  function tick() {}
-
-  function unlock(name) {
-    if (tech[name] !== undefined) tech[name] = true;
+  function forschen(name){
+    if(!tech[name]){
+      tech[name] = true;
+      UI.showOverlay(`Forschung abgeschlossen: ${name}!`);
+      return true;
+    } else {
+      UI.showOverlay(`${name} ist bereits erforscht!`);
+      return false;
+    }
   }
 
-  return { tech, tick, unlock };
+  function updateUI(){
+    document.getElementById("tech-bookkeeping").textContent = tech.buchhaltung ? "Fertig" : "Gesperrt";
+    document.getElementById("tech-insurance").textContent = tech.versicherung ? "Fertig" : "Gesperrt";
+    document.getElementById("tech-exchange").textContent = tech.boerse ? "Fertig" : "Gesperrt";
+  }
+
+  return {tech,forschen,updateUI};
 })();
