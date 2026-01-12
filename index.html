@@ -8,16 +8,20 @@
 <body>
   <div id="game">
 
+    <!-- HEADER -->
     <header>
       <h1>⚔️ Black Ledger</h1>
       <div id="topStats">
-        Day <span id="ui-day">1</span> |
-        Gold <span id="ui-gold">500</span> |
-        Reputation <span id="ui-rep">50</span>
+        Day: <span id="ui-day">1</span> |
+        Gold: <span id="ui-gold">500</span> |
+        Reputation: <span id="ui-rep">50</span> |
+        Debt: <span id="ui-debt">0</span>
       </div>
     </header>
 
+    <!-- MAIN PANELS -->
     <main>
+      <!-- MARKET PANEL -->
       <section id="marketPanel">
         <h2>Marketplace</h2>
         <div class="good" data-id="grain">🌾 Grain <span class="price"></span>
@@ -34,6 +38,7 @@
         </div>
       </section>
 
+      <!-- INVENTORY PANEL -->
       <section id="inventoryPanel">
         <h2>Storage</h2>
         <ul>
@@ -43,13 +48,61 @@
         </ul>
       </section>
 
+      <!-- AI PANEL -->
       <section id="aiPanel">
         <h2>Rival Guild</h2>
         <p>Gold: <span id="ai-gold">500</span></p>
         <p>Strategy: <span id="ai-style">Aggressive</span></p>
       </section>
+
+      <!-- WORLD PANEL -->
+      <section id="worldPanel">
+        <h2>World Map</h2>
+        <ul id="regionsList"></ul>
+      </section>
+
+      <!-- SOCIETY PANEL -->
+      <section id="societyPanel">
+        <h2>Society</h2>
+        <p>Happiness: <span id="soc-happiness">60</span></p>
+        <p>Faith: <span id="soc-faith">50</span></p>
+      </section>
+
+      <!-- POLITICS PANEL -->
+      <section id="politicsPanel">
+        <h2>Politics</h2>
+        <p>Title: <span id="pol-title">Merchant</span></p>
+        <p>Tax rate: <span id="pol-tax">10%</span></p>
+        <button id="bribeBtn">Bribe to reduce tax</button>
+      </section>
+
+      <!-- CRIME PANEL -->
+      <section id="crimePanel">
+        <h2>Crime</h2>
+        <p>Heat: <span id="crime-heat">0</span></p>
+        <button id="sabotageBtn">Sabotage Rival</button>
+        <button id="stealBtn">Steal Gold</button>
+      </section>
+
+      <!-- RESEARCH PANEL -->
+      <section id="researchPanel">
+        <h2>Research</h2>
+        <ul>
+          <li>Bookkeeping: <span id="tech-bookkeeping">Locked</span></li>
+          <li>Insurance: <span id="tech-insurance">Locked</span></li>
+          <li>Exchange: <span id="tech-exchange">Locked</span></li>
+        </ul>
+      </section>
+
+      <!-- ATMOSPHERE PANEL -->
+      <section id="atmospherePanel">
+        <h2>Environment</h2>
+        <p>Time: <span id="atm-time">0</span>:00</p>
+        <p>Weather: <span id="atm-weather">Clear</span></p>
+      </section>
     </main>
 
+    <!-- FOOTER -->
     <footer>
       <button id="nextDayBtn">Next Day ▶</button>
       <div id="log"></div>
@@ -57,8 +110,15 @@
 
   </div>
 
+  <!-- SCRIPTS -->
   <script src="economy.js"></script>
   <script src="ai.js"></script>
+  <script src="world.js"></script>
+  <script src="society.js"></script>
+  <script src="politics.js"></script>
+  <script src="crime.js"></script>
+  <script src="research.js"></script>
+  <script src="atmosphere.js"></script>
   <script src="animations.js"></script>
   <script src="ui.js"></script>
   <script src="game.js"></script>
