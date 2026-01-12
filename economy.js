@@ -1,62 +1,63 @@
 const Economy = (() => {
-  const market = {
-    grain: { price: 10, supply: 100, demand: 100, quality: 1 },
-    wood:  { price: 20, supply: 80,  demand: 80,  quality: 1 },
-    iron:  { price: 40, supply: 50,  demand: 60,  quality: 1 }
+  const markt = {
+    korn:      { preis: 10, menge: 100, nachfrage: 100, qualität: 1, region: "Süden" },
+    holz:      { preis: 20, menge: 80, nachfrage: 80, qualität: 1, region: "Norden" },
+    eisen:     { preis: 40, menge: 50, nachfrage: 60, qualität: 1, region: "Osten" },
+    wein:      { preis: 30, menge: 40, nachfrage: 50, qualität: 1, region: "Süden" },
+    gewürze:   { preis: 60, menge: 20, nachfrage: 30, qualität: 1, region: "Osten" },
+    stoffe:    { preis: 25, menge: 50, nachfrage: 60, qualität: 1, region: "Norden" }
   };
 
   let inflation = 1.0;
-  let creditRate = 0.05;
+  let kreditZins = 0.05;
+  let schwarzmarkt = { aktiv: false, aufschlag: 1.8 };
 
-  const blackMarket = {
-    active: false,
-    markup: 1.8
-  };
-
-  function updatePrices() {
-    for (let g in market) {
-      const m = market[g];
-      const pressure = (m.demand - m.supply) * 0.05;
-      const volatility = (Math.random() - 0.5) * 0.5;
-      m.price = Math.max(1, (m.price + pressure + volatility) * inflation);
+  function updatePreise() {
+    for (let ware in markt) {
+      const m = markt[ware];
+      const druck = (m.nachfrage - m.menge) * 0.05;
+      const volatilität = (Math.random()-0.5) * 0.5;
+      m.preis = Math.max(1, (m.preis + druck + volatilität) * inflation);
     }
   }
 
-  function takeLoan(state, amount) {
-    state.gold += amount;
-    state.debt = (state.debt || 0) + amount * (1 + creditRate);
-  }
-
-  function repayDebt(state, amount) {
-    if (!state.debt) return;
-    const pay = Math.min(amount, state.debt);
-    if (state.gold >= pay) {
-      state.gold -= pay;
-      state.debt -= pay;
-    }
-  }
-
-  function randomEvent() {
-    if (Math.random() < 0.25) {
-      const events = ["harvest","fire","war","inflation","blackmarket"];
+  function zufallsEvent() {
+    if(Math.random()<0.25) {
+      const events = ["ernten","brand","krieg","inflation","schwarzmarkt"];
       return events[Math.floor(Math.random()*events.length)];
     }
     return null;
   }
 
-  function applyEvent(ev) {
-    if (ev === "harvest") market.grain.supply += 30;
-    if (ev === "fire") market.wood.supply -= 20;
-    if (ev === "war") market.iron.demand += 25;
-    if (ev === "inflation") inflation = Math.min(1.5, inflation + 0.05);
-    if (ev === "blackmarket") blackMarket.active = true;
+  function wendeEvent(anEvent) {
+    switch(anEvent) {
+      case "ernten": markt.korn.menge += 30; break;
+      case "brand":  markt.holz.menge -= 20; break;
+      case "krieg":  markt.eisen.nachfrage += 25; break;
+      case "inflation": inflation = Math.min(1.5, inflation + 0.05); break;
+      case "schwarzmarkt": schwarzmarkt.aktiv = true; break;
+    }
   }
 
-  function getPrice(g) {
-    let p = market[g].price;
-    if (blackMarket.active) p *= blackMarket.markup;
+  function kreditAufnehmen(state, betrag) {
+    state.gold += betrag;
+    state.schulden = (state.schulden||0) + betrag*(1+kreditZins);
+  }
+
+  function kreditZurueckzahlen(state, betrag) {
+    if(!state.schulden) return;
+    const zahle = Math.min(betrag, state.schulden);
+    if(state.gold >= zahle) {
+      state.gold -= zahle;
+      state.schulden -= zahle;
+    }
+  }
+
+  function getPreis(ware) {
+    let p = markt[ware].preis;
+    if(schwarzmarkt.aktiv) p *= schwarzmarkt.aufschlag;
     return p;
   }
 
-  return { market, updatePrices, randomEvent, applyEvent, takeLoan, repayDebt, getPrice };
+  return { markt, updatePreise, zufallsEvent, wendeEvent, kreditAufnehmen, kreditZurueckzahlen, getPreis };
 })();
