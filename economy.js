@@ -10,38 +10,22 @@ const Economy = (() => {
   let inflation = 1.0;
   let schwarzmarkt = {aktiv:false,aufschlag:1.8};
 
-  function updatePreise(){
+  function updatePreise(atmosphere, society){
     for(let w in markt){
       const m = markt[w];
-      const druck = (m.nachfrage - m.menge)*0.05;
-      const vol = (Math.random()-0.5)*0.5;
-      m.preis = Math.max(1,(m.preis+druck+vol)*inflation);
-    }
-  }
-
-  function zufallsEvent(){
-    if(Math.random()<0.25){
-      const events=["ernten","brand","krieg","inflation","schwarzmarkt"];
-      return events[Math.floor(Math.random()*events.length)];
-    }
-    return null;
-  }
-
-  function wendeEvent(evt){
-    switch(evt){
-      case "ernten": markt.korn.menge+=30; break;
-      case "brand": markt.holz.menge-=20; break;
-      case "krieg": markt.eisen.nachfrage+=25; break;
-      case "inflation": inflation=Math.min(1.5,inflation+0.05); break;
-      case "schwarzmarkt": schwarzmarkt.aktiv=true; break;
+      const diff = m.nachfrage - m.menge;
+      // Wetter + Jahreszeit Einfluss
+      let faktor = 1 + (atmosphere.weather==="sturm"?0.1:0);
+      if(atmosphere.season==="Winter" && w==="holz") faktor += 0.2;
+      m.preis = Math.max(1, (m.preis + diff*0.05)*faktor*inflation);
     }
   }
 
   function getPreis(ware){
     let p = markt[ware].preis;
-    if(schwarzmarkt.aktiv) p*=schwarzmarkt.aufschlag;
+    if(schwarzmarkt.aktiv) p *= schwarzmarkt.aufschlag;
     return p;
   }
 
-  return {markt,updatePreise,zufallsEvent,wendeEvent,getPreis};
+  return {markt,updatePreise,getPreis};
 })();
