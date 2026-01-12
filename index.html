@@ -1,137 +1,134 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="de">
 <head>
-  <meta charset="UTF-8" />
-  <title>Black Ledger</title>
-  <link rel="stylesheet" href="style.css" />
+<meta charset="UTF-8">
+<title>Black Ledger</title>
+<link rel="stylesheet" href="style.css">
 </head>
 <body>
-  <div id="game">
+<div id="game">
 
-    <!-- HEADER -->
-    <header>
-      <h1>⚔️ Black Ledger</h1>
-      <div id="topStats">
-        Day: <span id="ui-day">1</span> |
-        Gold: <span id="ui-gold">500</span> |
-        Reputation: <span id="ui-rep">50</span> |
-        Debt: <span id="ui-debt">0</span>
-      </div>
-    </header>
+<header>
+<h1>⚔️ Black Ledger</h1>
+<div id="topStats">
+Tag: <span id="ui-day">1</span> |
+Gold: <span id="ui-gold">500</span> |
+Reputation: <span id="ui-rep">50</span> |
+Schulden: <span id="ui-debt">0</span>
+</div>
+</header>
 
-    <!-- MAIN PANELS -->
-    <main>
-      <!-- MARKET PANEL -->
-      <section id="marketPanel">
-        <h2>Marketplace</h2>
-        <div class="good" data-id="grain">
-          <img src="assets/images/grain.png" alt="Grain" class="icon">
-          Grain <span class="price"></span>
-          <button class="buy">
-            <img src="assets/icons/buy.svg" alt="Buy Icon"> Buy
-          </button>
-          <button class="sell">
-            <img src="assets/icons/sell.svg" alt="Sell Icon"> Sell
-          </button>
-        </div>
-        <div class="good" data-id="wood">
-          <img src="assets/images/wood.png" alt="Wood" class="icon">
-          Wood <span class="price"></span>
-          <button class="buy">
-            <img src="assets/icons/buy.svg" alt="Buy Icon"> Buy
-          </button>
-          <button class="sell">
-            <img src="assets/icons/sell.svg" alt="Sell Icon"> Sell
-          </button>
-        </div>
-        <div class="good" data-id="iron">
-          <img src="assets/images/iron.png" alt="Iron" class="icon">
-          Iron <span class="price"></span>
-          <button class="buy">
-            <img src="assets/icons/buy.svg" alt="Buy Icon"> Buy
-          </button>
-          <button class="sell">
-            <img src="assets/icons/sell.svg" alt="Sell Icon"> Sell
-          </button>
-        </div>
-      </section>
+<main>
+<!-- MARKTPLATZ -->
+<section id="marketPanel">
+<h2>Marktplatz</h2>
+<div class="good" data-id="korn">
+<img src="assets/images/grain.png" alt="Korn" class="icon">
+Korn <span class="price"></span>
+<button class="buy"><img src="assets/icons/buy.svg" alt="Kaufen"> Kaufen</button>
+<button class="sell"><img src="assets/icons/sell.svg" alt="Verkaufen"> Verkaufen</button>
+</div>
+<div class="good" data-id="holz">
+<img src="assets/images/wood.png" alt="Holz" class="icon">
+Holz <span class="price"></span>
+<button class="buy"><img src="assets/icons/buy.svg" alt="Kaufen"> Kaufen</button>
+<button class="sell"><img src="assets/icons/sell.svg" alt="Verkaufen"> Verkaufen</button>
+</div>
+<div class="good" data-id="eisen">
+<img src="assets/images/iron.png" alt="Eisen" class="icon">
+Eisen <span class="price"></span>
+<button class="buy"><img src="assets/icons/buy.svg" alt="Kaufen"> Kaufen</button>
+<button class="sell"><img src="assets/icons/sell.svg" alt="Verkaufen"> Verkaufen</button>
+</div>
+<div class="good" data-id="wein">
+<img src="assets/images/wine.png" alt="Wein" class="icon">
+Wein <span class="price"></span>
+<button class="buy"><img src="assets/icons/buy.svg" alt="Kaufen"> Kaufen</button>
+<button class="sell"><img src="assets/icons/sell.svg" alt="Verkaufen"> Verkaufen</button>
+</div>
+<div class="good" data-id="gewuerze">
+<img src="assets/images/spices.png" alt="Gewürze" class="icon">
+Gewürze <span class="price"></span>
+<button class="buy"><img src="assets/icons/buy.svg" alt="Kaufen"> Kaufen</button>
+<button class="sell"><img src="assets/icons/sell.svg" alt="Verkaufen"> Verkaufen</button>
+</div>
+<div class="good" data-id="stoffe">
+<img src="assets/images/fabric.png" alt="Stoffe" class="icon">
+Stoffe <span class="price"></span>
+<button class="buy"><img src="assets/icons/buy.svg" alt="Kaufen"> Kaufen</button>
+<button class="sell"><img src="assets/icons/sell.svg" alt="Verkaufen"> Verkaufen</button>
+</div>
+</section>
 
-      <!-- INVENTORY PANEL -->
-      <section id="inventoryPanel">
-        <h2>Storage</h2>
-        <ul>
-          <li>Grain: <span id="inv-grain">0</span></li>
-          <li>Wood: <span id="inv-wood">0</span></li>
-          <li>Iron: <span id="inv-iron">0</span></li>
-        </ul>
-      </section>
+<!-- LAGER -->
+<section id="inventoryPanel">
+<h2>Lager</h2>
+<ul>
+<li>Korn: <span id="inv-korn">0</span></li>
+<li>Holz: <span id="inv-holz">0</span></li>
+<li>Eisen: <span id="inv-eisen">0</span></li>
+<li>Wein: <span id="inv-wein">0</span></li>
+<li>Gewürze: <span id="inv-gewuerze">0</span></li>
+<li>Stoffe: <span id="inv-stoffe">0</span></li>
+</ul>
+</section>
 
-      <!-- WORLD PANEL -->
-      <section id="worldPanel">
-        <h2>World Map</h2>
-        <ul id="regionsList"></ul>
-      </section>
+<!-- BEVÖLKERUNG -->
+<section id="societyPanel">
+<h2>Bevölkerung</h2>
+<p>Zufriedenheit: <span id="soc-happiness">60</span></p>
+<p>Glaube: <span id="soc-faith">50</span></p>
+</section>
 
-      <!-- SOCIETY PANEL -->
-      <section id="societyPanel">
-        <h2>Society</h2>
-        <p>Happiness: <span id="soc-happiness">60</span></p>
-        <p>Faith: <span id="soc-faith">50</span></p>
-      </section>
+<!-- POLITIK -->
+<section id="politicsPanel">
+<h2>Politik</h2>
+<p>Titel: <span id="pol-title">Händler</span></p>
+<p>Steuer: <span id="pol-tax">10%</span></p>
+<button id="bribeBtn">Bestechen (Steuern senken)</button>
+</section>
 
-      <!-- POLITICS PANEL -->
-      <section id="politicsPanel">
-        <h2>Politics</h2>
-        <p>Title: <span id="pol-title">Merchant</span></p>
-        <p>Tax rate: <span id="pol-tax">10%</span></p>
-        <button id="bribeBtn">Bribe to reduce tax</button>
-      </section>
+<!-- VERBRECHEN -->
+<section id="crimePanel">
+<h2>Verbrechen</h2>
+<p>Verdacht: <span id="crime-heat">0</span></p>
+<button id="sabotageBtn">Rivalen sabotieren</button>
+<button id="stealBtn">Gold stehlen</button>
+</section>
 
-      <!-- CRIME PANEL -->
-      <section id="crimePanel">
-        <h2>Crime</h2>
-        <p>Heat: <span id="crime-heat">0</span></p>
-        <button id="sabotageBtn">Sabotage Rival</button>
-        <button id="stealBtn">Steal Gold</button>
-      </section>
+<!-- FORSCHUNG -->
+<section id="researchPanel">
+<h2>Forschung</h2>
+<ul>
+<li>Buchhaltung: <span id="tech-bookkeeping">Gesperrt</span></li>
+<li>Versicherung: <span id="tech-insurance">Gesperrt</span></li>
+<li>Börse: <span id="tech-exchange">Gesperrt</span></li>
+</ul>
+</section>
 
-      <!-- RESEARCH PANEL -->
-      <section id="researchPanel">
-        <h2>Research</h2>
-        <ul>
-          <li>Bookkeeping: <span id="tech-bookkeeping">Locked</span></li>
-          <li>Insurance: <span id="tech-insurance">Locked</span></li>
-          <li>Exchange: <span id="tech-exchange">Locked</span></li>
-        </ul>
-      </section>
+<!-- ATMOSPHÄRE -->
+<section id="atmospherePanel">
+<h2>Umwelt</h2>
+<p>Zeit: <span id="atm-time">0</span>:00</p>
+<p>Wetter: <span id="atm-weather">klar</span></p>
+</section>
 
-      <!-- ATMOSPHERE PANEL -->
-      <section id="atmospherePanel">
-        <h2>Environment</h2>
-        <p>Time: <span id="atm-time">0</span>:00</p>
-        <p>Weather: <span id="atm-weather">Clear</span></p>
-      </section>
-    </main>
+</main>
 
-    <!-- FOOTER -->
-    <footer>
-      <button id="nextDayBtn">Next Day ▶</button>
-      <div id="log"></div>
-    </footer>
+<footer>
+<button id="nextDayBtn">Nächster Tag ▶</button>
+<div id="log"></div>
+</footer>
 
-  </div>
+<!-- Overlay für Events -->
+<div id="overlay" class="hidden">
+<div id="overlayContent"></div>
+<button id="overlayClose">OK</button>
+</div>
 
-  <!-- JS MODULES -->
-  <script src="economy.js"></script>
-  <script src="ai.js"></script>
-  <script src="world.js"></script>
-  <script src="society.js"></script>
-  <script src="politics.js"></script>
-  <script src="crime.js"></script>
-  <script src="research.js"></script>
-  <script src="atmosphere.js"></script>
-  <script src="animations.js"></script>
-  <script src="ui.js"></script>
-  <script src="game.js"></script>
+<script src="economy.js"></script>
+<script src="ai.js"></script>
+<script src="ui.js"></script>
+<script src="game.js"></script>
 </body>
 </html>
