@@ -4,31 +4,19 @@ const AI = (() => {
     {name:"Gilde Süden", gold:400, inventar:{}, strategie:"Spekulieren"}
   ];
 
-  function entscheidung(wa, playerState, atmosphere, crime, politics){
+  function entscheidung(wa, playerState, atmosphere, crime, politics, society){
     rivals.forEach(rival=>{
-      // Grundstrategie
-      let kauflust = 0;
-      if(rival.strategie==="Handel") kauflust += 1;
-      if(rival.strategie==="Spekulieren") kauflust += 0.5;
-
-      // Wetter-Effekt
-      if(atmosphere.weather==="sturm") kauflust -= 0.5;
-
-      // Tageszeit
-      if(atmosphere.time<6 || atmosphere.time>20) kauflust -= 0.7;
-
-      // Crime-Heat
+      let kauflust = 0.5;
+      // Wetter, Tageszeit, Crime, Politik, Markt
+      if(atmosphere.weather==="sturm") kauflust -= 0.3;
+      if(atmosphere.time<6 || atmosphere.time>20) kauflust -= 0.2;
       kauflust -= crime.heat*0.02;
-
-      // Politics Steuern
       kauflust -= politics.taxRate*0.01;
-
-      // Nachfrage & Preisabhängigkeit
       const markt = Economy.markt[wa];
-      const diff = markt.nachfrage - markt.menge;
-      kauflust += diff*0.01;
+      kauflust += (markt.nachfrage - markt.menge)*0.01;
+      if(society.happiness<40) kauflust -= 0.1;
 
-      // Entscheidung
+      // Aktion
       if(kauflust>0.5 && rival.gold >= markt.preis){
         rival.gold -= markt.preis;
         rival.inventar[wa] = (rival.inventar[wa]||0)+1;
@@ -43,8 +31,10 @@ const AI = (() => {
     });
   }
 
-  function runAll(playerState, atmosphere, crime, politics){
-    Object.keys(Economy.markt).forEach(wa=>entscheidung(wa, playerState, atmosphere, crime, politics));
+  function runAll(playerState, atmosphere, crime, politics, society){
+    Object.keys(Economy.markt).forEach(wa=>{
+      entscheidung(wa, playerState, atmosphere, crime, politics, society);
+    });
   }
 
   return {rivals,runAll};
