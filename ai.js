@@ -1,28 +1,51 @@
 const AI = (() => {
-  const state = {
-    gold:500,
-    inventar:{korn:0,holz:0,eisen:0,wein:0,gewuerze:0,stoffe:0},
-    stil:"Aggressiv",
-  };
+  const rivals = [
+    {name:"Gilde Norden", gold:500, inventar:{}, strategie:"Handel"}, 
+    {name:"Gilde Süden", gold:400, inventar:{}, strategie:"Spekulieren"}
+  ];
 
-  function runde(markt,playerState){
-    const waren = Object.keys(state.inventar);
-    const w = waren[Math.floor(Math.random()*waren.length)];
-    const preis = markt[w].preis;
+  function entscheidung(wa, playerState, atmosphere, crime, politics){
+    rivals.forEach(rival=>{
+      // Grundstrategie
+      let kauflust = 0;
+      if(rival.strategie==="Handel") kauflust += 1;
+      if(rival.strategie==="Spekulieren") kauflust += 0.5;
 
-    if(Math.random()<0.6 && state.gold>=preis){
-      state.gold-=preis;
-      state.inventar[w]++;
-      markt[w].nachfrage+=2;
-      return `Die Rivalen haben ${w} gekauft!`;
-    } else if(state.inventar[w]>0){
-      state.inventar[w]--;
-      state.gold+=preis;
-      markt[w].menge+=2;
-      return `Die Rivalen haben ${w} verkauft!`;
-    }
-    return null;
+      // Wetter-Effekt
+      if(atmosphere.weather==="sturm") kauflust -= 0.5;
+
+      // Tageszeit
+      if(atmosphere.time<6 || atmosphere.time>20) kauflust -= 0.7;
+
+      // Crime-Heat
+      kauflust -= crime.heat*0.02;
+
+      // Politics Steuern
+      kauflust -= politics.taxRate*0.01;
+
+      // Nachfrage & Preisabhängigkeit
+      const markt = Economy.markt[wa];
+      const diff = markt.nachfrage - markt.menge;
+      kauflust += diff*0.01;
+
+      // Entscheidung
+      if(kauflust>0.5 && rival.gold >= markt.preis){
+        rival.gold -= markt.preis;
+        rival.inventar[wa] = (rival.inventar[wa]||0)+1;
+        markt.nachfrage += 2;
+        UI.log(`${rival.name} hat 1 ${wa} gekauft.`);
+      } else if(rival.inventar[wa]>0 && kauflust<0){
+        rival.inventar[wa]--;
+        rival.gold += markt.preis;
+        markt.menge += 1;
+        UI.log(`${rival.name} hat 1 ${wa} verkauft.`);
+      }
+    });
   }
 
-  return {state,runde};
+  function runAll(playerState, atmosphere, crime, politics){
+    Object.keys(Economy.markt).forEach(wa=>entscheidung(wa, playerState, atmosphere, crime, politics));
+  }
+
+  return {rivals,runAll};
 })();
