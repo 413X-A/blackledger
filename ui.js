@@ -1,4 +1,6 @@
 const UI = (() => {
+
+  // UI aktualisieren: Tag, Gold, Lager, Preise
   function update(state){
     document.getElementById("ui-day").textContent = state.tag;
     document.getElementById("ui-gold").textContent = state.gold.toFixed(0);
@@ -10,17 +12,21 @@ const UI = (() => {
       const priceEl = document.querySelector(`.good[data-id="${g}"] .price`);
       if(priceEl) priceEl.textContent = Economy.getPreis(g).toFixed(1);
     });
-
-    // Overlay wird für AI / Events benutzt
   }
 
+  // Log-Funktion für Marktbewegungen, KI und kleinere Events
   function log(msg){
     const el = document.getElementById("log");
-    el.textContent = msg;
-    el.animate([{opacity:0},{opacity:1}],{duration:300});
+    const p = document.createElement("p");
+    p.textContent = msg;
+    el.appendChild(p);
+    el.scrollTop = el.scrollHeight;
+    p.animate([{opacity:0},{opacity:1}],{duration:300});
   }
 
+  // Buttons binden
   function bindButtons(){
+    // Kaufen / Verkaufen
     document.querySelectorAll(".buy").forEach(btn=>{
       btn.addEventListener("click", e=>{
         const ware = e.currentTarget.closest(".good").dataset.id;
@@ -34,11 +40,14 @@ const UI = (() => {
       });
     });
 
+    // Bestechung
     document.getElementById("bribeBtn").addEventListener("click", ()=>{
       const erfolg = Politics.bestechen(Game.state);
       UI.showOverlay(erfolg ? "Bestechung erfolgreich! Steuern gesenkt." : "Nicht genug Gold!");
+      UI.update(Game.state);
     });
 
+    // Sabotage & Stehlen
     document.getElementById("sabotageBtn").addEventListener("click", ()=>{
       const msg = Crime.sabotage("Rivalen");
       UI.showOverlay(msg);
@@ -49,19 +58,26 @@ const UI = (() => {
       UI.showOverlay(msg);
     });
 
+    // Overlay schließen
     document.getElementById("overlayClose").addEventListener("click", ()=>{
       document.getElementById("overlay").classList.add("hidden");
     });
   }
 
-  UI.showOverlay = (text)=>{
-    if(!text) return; // Keine Meldung → kein Overlay
+  // Overlay anzeigen
+  function showOverlay(text){
+    if(!text) return;
     const overlay = document.getElementById("overlay");
     document.getElementById("overlayContent").textContent = text;
     overlay.classList.remove("hidden");
-};
+  }
 
+  // Init UI
   function init(){
+    // Overlay initial verstecken
+    const overlay = document.getElementById("overlay");
+    overlay.classList.add("hidden");
+
     bindButtons();
     update(Game.state);
     log("Willkommen bei Black Ledger!");
@@ -70,4 +86,5 @@ const UI = (() => {
   return {update,log,init,showOverlay};
 })();
 
+// UI initialisieren
 window.addEventListener("load", UI.init);
