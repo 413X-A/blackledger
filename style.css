@@ -1,3 +1,4 @@
+/* BASISSTILE */
 body {
   margin: 0;
   font-family: "Trebuchet MS", serif;
@@ -5,19 +6,35 @@ body {
   color: #f5e6c8;
 }
 
-#game { max-width: 1100px; margin: auto; padding: 10px; }
-
-header {
-  display: flex; justify-content: space-between; align-items: center;
-  border-bottom: 2px solid #6b4b2a;
+#game {
+  max-width: 1200px;
+  margin: auto;
+  padding: 10px;
 }
 
-h1 { color: gold; text-shadow: 0 0 10px black; }
+header {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 2px solid #6b4b2a;
+  padding-bottom: 5px;
+}
 
+h1 {
+  color: gold;
+  text-shadow: 0 0 10px black;
+  font-size: 1.8em;
+  flex: 1 1 100%;
+  text-align: center;
+}
+
+/* GRID FÜR PANELS */
 main {
   display: grid;
-  grid-template-columns: 2fr 1fr 1fr;
-  gap: 15px;
+  grid-template-columns: repeat(3, 1fr);
+  grid-auto-rows: minmax(150px, auto);
+  gap: 10px;
   margin-top: 15px;
 }
 
@@ -26,9 +43,12 @@ section {
   border: 1px solid #6b4b2a;
   padding: 10px;
   border-radius: 6px;
-  animation: fadeIn .6s ease;
+  animation: fadeIn 0.6s ease;
+  overflow-y: auto;
+  max-height: 250px;
 }
 
+/* GOOD / BUTTONS */
 .good {
   display: flex;
   justify-content: space-between;
@@ -40,9 +60,11 @@ button {
   background: linear-gradient(#7b552d, #4b2e12);
   border: 1px solid #3a220d;
   color: #fff3c4;
-  padding: 4px 8px;
+  padding: 8px 12px; /* größer für Touch */
+  font-size: 1em;    /* besser für Mobil */
   cursor: pointer;
-  transition: all .2s;
+  transition: all 0.2s;
+  border-radius: 4px;
 }
 
 button:hover {
@@ -50,15 +72,52 @@ button:hover {
   box-shadow: 0 0 8px gold;
 }
 
+/* FOOTER */
 footer {
   margin-top: 15px;
   display: flex;
   justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
 }
 
-#log { font-size: .9em; opacity: .8; max-width: 70%; }
+#log {
+  font-size: 0.9em;
+  opacity: 0.8;
+  max-width: 100%;
+  margin-top: 5px;
+}
 
+/* ANIMATION */
 @keyframes fadeIn {
   from {opacity:0; transform: translateY(10px);}
   to {opacity:1; transform: translateY(0);}
+}
+
+/* 📱 RESPONSIVE FÜR HANDYS */
+@media screen and (max-width: 900px) {
+  main {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media screen and (max-width: 600px) {
+  main {
+    grid-template-columns: 1fr;
+  }
+  section {
+    max-height: none;
+  }
+  h1 {
+    font-size: 1.5em;
+  }
+  button {
+    width: 100%;       /* volle Breite für Touch */
+    margin: 4px 0;
+  }
+  #topStats {
+    font-size: 0.9em;
+    text-align: center;
+    width: 100%;
+  }
 }
