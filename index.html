@@ -8,6 +8,8 @@
 <body>
 
 <div id="game">
+
+  <!-- ----------------- Header ----------------- -->
   <header>
     <h1>⚔️ Black Ledger</h1>
     <div id="topStats">
@@ -18,16 +20,36 @@
     </div>
   </header>
 
+  <!-- ----------------- Hauptbereich ----------------- -->
   <main>
+
     <!-- Marktplatz -->
     <section id="marketPanel">
       <h2>Marktplatz</h2>
-      <div class="good" data-id="korn">Korn: <span class="price"></span> <button class="buy">Kaufen</button> <button class="sell">Verkaufen</button></div>
-      <div class="good" data-id="holz">Holz: <span class="price"></span> <button class="buy">Kaufen</button> <button class="sell">Verkaufen</button></div>
-      <div class="good" data-id="eisen">Eisen: <span class="price"></span> <button class="buy">Kaufen</button> <button class="sell">Verkaufen</button></div>
-      <div class="good" data-id="wein">Wein: <span class="price"></span> <button class="buy">Kaufen</button> <button class="sell">Verkaufen</button></div>
-      <div class="good" data-id="gewuerze">Gewürze: <span class="price"></span> <button class="buy">Kaufen</button> <button class="sell">Verkaufen</button></div>
-      <div class="good" data-id="stoffe">Stoffe: <span class="price"></span> <button class="buy">Kaufen</button> <button class="sell">Verkaufen</button></div>
+      <div class="good" data-id="korn">Korn: <span class="price"></span> 
+        <button class="buy">Kaufen</button> 
+        <button class="sell">Verkaufen</button>
+      </div>
+      <div class="good" data-id="holz">Holz: <span class="price"></span> 
+        <button class="buy">Kaufen</button> 
+        <button class="sell">Verkaufen</button>
+      </div>
+      <div class="good" data-id="eisen">Eisen: <span class="price"></span> 
+        <button class="buy">Kaufen</button> 
+        <button class="sell">Verkaufen</button>
+      </div>
+      <div class="good" data-id="wein">Wein: <span class="price"></span> 
+        <button class="buy">Kaufen</button> 
+        <button class="sell">Verkaufen</button>
+      </div>
+      <div class="good" data-id="gewuerze">Gewürze: <span class="price"></span> 
+        <button class="buy">Kaufen</button> 
+        <button class="sell">Verkaufen</button>
+      </div>
+      <div class="good" data-id="stoffe">Stoffe: <span class="price"></span> 
+        <button class="buy">Kaufen</button> 
+        <button class="sell">Verkaufen</button>
+      </div>
     </section>
 
     <!-- Lager -->
@@ -83,21 +105,24 @@
       <p>Wetter: <span id="atm-weather">klar</span></p>
       <p>Jahreszeit: <span id="atm-season">Frühling</span></p>
     </section>
+
   </main>
 
+  <!-- ----------------- Footer ----------------- -->
   <footer>
     <button id="nextDayBtn">Nächster Tag ▶</button>
     <div id="log"></div>
   </footer>
+
 </div>
 
-<!-- Overlay Zettel -->
+<!-- ----------------- Overlay Zettel ----------------- -->
 <div id="overlay" class="hidden">
   <div id="overlayContent"></div>
   <button id="overlayClose">OK</button>
 </div>
 
-<!-- Scripts -->
+<!-- ----------------- Scripts ----------------- -->
 <script src="economy.js"></script>
 <script src="ai.js"></script>
 <script src="society.js"></script>
