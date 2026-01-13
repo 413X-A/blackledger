@@ -1,23 +1,179 @@
-body { font-family: sans-serif; margin:0; padding:0; }
-#game { max-width: 900px; margin: auto; padding: 10px; }
-.good { margin: 5px 0; }
+/* ----------------- Grundlayout ----------------- */
+body {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  margin:0;
+  padding:0;
+  background: #f4f0e6; /* mittelalterlicher Papierton */
+  color: #333;
+}
 
+h1,h2 { margin:5px 0; }
+
+#game {
+  max-width: 1000px;
+  margin:auto;
+  padding:10px;
+}
+
+/* ----------------- Header ----------------- */
+header {
+  background:#6b4e16;
+  color:#fff;
+  padding:10px;
+  text-align:center;
+  border-bottom:2px solid #3c2f1b;
+}
+
+#topStats {
+  margin-top:5px;
+  font-size:0.9em;
+}
+
+/* ----------------- Panels ----------------- */
+main {
+  display:grid;
+  grid-template-columns: 1fr 1fr;
+  gap:10px;
+  margin-top:10px;
+}
+
+section {
+  background:#fff8f0;
+  border:1px solid #d1c4a1;
+  border-radius:8px;
+  padding:10px;
+}
+
+section h2 {
+  font-size:1.1em;
+  border-bottom:1px solid #d1c4a1;
+  margin-bottom:5px;
+  padding-bottom:3px;
+}
+
+/* ----------------- Waren ----------------- */
+.good {
+  display:flex;
+  justify-content:space-between;
+  margin:5px 0;
+  padding:3px 5px;
+  border-bottom:1px dashed #ccc;
+}
+
+.good button {
+  margin-left:3px;
+  font-size:0.9em;
+  padding:2px 5px;
+  cursor:pointer;
+  border-radius:3px;
+  border:1px solid #666;
+  background:#e0d7c0;
+}
+
+.good button:hover {
+  background:#d4c8a8;
+}
+
+/* ----------------- Lager ----------------- */
+#inventoryPanel ul {
+  list-style:none;
+  padding-left:0;
+}
+
+#inventoryPanel li {
+  margin:3px 0;
+}
+
+/* ----------------- Buttons Footer ----------------- */
+footer {
+  margin-top:10px;
+  text-align:center;
+}
+
+#nextDayBtn {
+  padding:5px 10px;
+  font-size:1em;
+  border-radius:5px;
+  border:1px solid #555;
+  background:#d1b56f;
+  cursor:pointer;
+}
+
+#nextDayBtn:hover {
+  background:#c6a857;
+}
+
+/* ----------------- Log ----------------- */
+#log {
+  max-height:150px;
+  overflow-y:auto;
+  background:#eee8dc;
+  padding:5px;
+  margin-top:5px;
+  font-size:0.85em;
+  border:1px solid #ccc;
+  border-radius:5px;
+}
+
+/* ----------------- Overlay ----------------- */
 #overlay {
-  position: fixed;
+  position:fixed;
   top:0; left:0;
-  width:100%; height:100%;
+  width:100%;
+  height:100%;
+  display:flex;
+  justify-content:center;
+  align-items:center;
   background: rgba(0,0,0,0.7);
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  z-index: 1000;
-  pointer-events: auto;
-  opacity: 0;
+  z-index:1000;
+  opacity:0;
+  pointer-events:auto;
   transition: opacity 0.3s;
 }
+
 #overlayContent {
-  background:#fff; padding:20px; border-radius:10px; max-width:90%; text-align:center;
+  background:#fff8f0;
+  padding:20px;
+  border-radius:10px;
+  max-width:80%;
+  text-align:center;
+  border:2px solid #6b4e16;
+  font-size:1em;
+  box-shadow:0 0 15px rgba(0,0,0,0.5);
 }
-#overlay.hidden { display:none; }
-#log { max-height: 120px; overflow-y: auto; background:#eee; padding:5px; margin-top:5px; font-size:0.9em; }
-button { margin:2px; }
+
+#overlay button {
+  margin-top:10px;
+  padding:5px 10px;
+  font-size:0.95em;
+  border-radius:5px;
+  border:1px solid #555;
+  background:#d1b56f;
+  cursor:pointer;
+}
+
+#overlay button:hover {
+  background:#c6a857;
+}
+
+/* Overlay unsichtbar, wenn hidden */
+#overlay.hidden {
+  display:none;
+}
+
+/* ----------------- Responsive ----------------- */
+@media (max-width: 768px) {
+  main {
+    grid-template-columns: 1fr;
+  }
+
+  #overlayContent {
+    max-width:90%;
+    font-size:0.95em;
+  }
+
+  #nextDayBtn {
+    width:80%;
+    font-size:1em;
+  }
+}
