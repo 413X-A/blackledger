@@ -6,89 +6,98 @@
 <link rel="stylesheet" href="style.css">
 </head>
 <body>
+
 <div id="game">
+  <header>
+    <h1>⚔️ Black Ledger</h1>
+    <div id="topStats">
+      Tag: <span id="ui-day">1</span> |
+      Gold: <span id="ui-gold">500</span> |
+      Reputation: <span id="ui-rep">50</span> |
+      Schulden: <span id="ui-debt">0</span>
+    </div>
+  </header>
 
-<header>
-<h1>⚔️ Black Ledger</h1>
-<div id="topStats">
-Tag: <span id="ui-day">1</span> |
-Gold: <span id="ui-gold">500</span> |
-Reputation: <span id="ui-rep">50</span> |
-Schulden: <span id="ui-debt">0</span>
+  <main>
+    <!-- Marktplatz -->
+    <section id="marketPanel">
+      <h2>Marktplatz</h2>
+      <div class="good" data-id="korn">Korn: <span class="price"></span> <button class="buy">Kaufen</button> <button class="sell">Verkaufen</button></div>
+      <div class="good" data-id="holz">Holz: <span class="price"></span> <button class="buy">Kaufen</button> <button class="sell">Verkaufen</button></div>
+      <div class="good" data-id="eisen">Eisen: <span class="price"></span> <button class="buy">Kaufen</button> <button class="sell">Verkaufen</button></div>
+      <div class="good" data-id="wein">Wein: <span class="price"></span> <button class="buy">Kaufen</button> <button class="sell">Verkaufen</button></div>
+      <div class="good" data-id="gewuerze">Gewürze: <span class="price"></span> <button class="buy">Kaufen</button> <button class="sell">Verkaufen</button></div>
+      <div class="good" data-id="stoffe">Stoffe: <span class="price"></span> <button class="buy">Kaufen</button> <button class="sell">Verkaufen</button></div>
+    </section>
+
+    <!-- Lager -->
+    <section id="inventoryPanel">
+      <h2>Lager</h2>
+      <ul>
+        <li>Korn: <span id="inv-korn">0</span></li>
+        <li>Holz: <span id="inv-holz">0</span></li>
+        <li>Eisen: <span id="inv-eisen">0</span></li>
+        <li>Wein: <span id="inv-wein">0</span></li>
+        <li>Gewürze: <span id="inv-gewuerze">0</span></li>
+        <li>Stoffe: <span id="inv-stoffe">0</span></li>
+      </ul>
+    </section>
+
+    <!-- Bevölkerung -->
+    <section id="societyPanel">
+      <h2>Bevölkerung</h2>
+      <p>Zufriedenheit: <span id="soc-happiness">60</span></p>
+      <p>Glaube: <span id="soc-faith">50</span></p>
+    </section>
+
+    <!-- Politik -->
+    <section id="politicsPanel">
+      <h2>Politik</h2>
+      <p>Titel: <span id="pol-title">Händler</span></p>
+      <p>Steuer: <span id="pol-tax">10%</span></p>
+      <button id="bribeBtn">Bestechen</button>
+    </section>
+
+    <!-- Verbrechen -->
+    <section id="crimePanel">
+      <h2>Verbrechen</h2>
+      <p>Verdacht: <span id="crime-heat">0</span></p>
+      <button id="sabotageBtn">Sabotage</button>
+      <button id="stealBtn">Gold stehlen</button>
+    </section>
+
+    <!-- Forschung -->
+    <section id="researchPanel">
+      <h2>Forschung</h2>
+      <ul>
+        <li>Buchhaltung: <span id="tech-bookkeeping">Gesperrt</span></li>
+        <li>Versicherung: <span id="tech-insurance">Gesperrt</span></li>
+        <li>Börse: <span id="tech-exchange">Gesperrt</span></li>
+      </ul>
+    </section>
+
+    <!-- Umwelt -->
+    <section id="atmospherePanel">
+      <h2>Umwelt</h2>
+      <p>Zeit: <span id="atm-time">8</span>:00</p>
+      <p>Wetter: <span id="atm-weather">klar</span></p>
+      <p>Jahreszeit: <span id="atm-season">Frühling</span></p>
+    </section>
+  </main>
+
+  <footer>
+    <button id="nextDayBtn">Nächster Tag ▶</button>
+    <div id="log"></div>
+  </footer>
 </div>
-</header>
 
-<main>
-<section id="marketPanel">
-<h2>Marktplatz</h2>
-<div class="good" data-id="korn">Korn: <span class="price"></span> <button class="buy">Kaufen</button> <button class="sell">Verkaufen</button></div>
-<div class="good" data-id="holz">Holz: <span class="price"></span> <button class="buy">Kaufen</button> <button class="sell">Verkaufen</button></div>
-<div class="good" data-id="eisen">Eisen: <span class="price"></span> <button class="buy">Kaufen</button> <button class="sell">Verkaufen</button></div>
-<div class="good" data-id="wein">Wein: <span class="price"></span> <button class="buy">Kaufen</button> <button class="sell">Verkaufen</button></div>
-<div class="good" data-id="gewuerze">Gewürze: <span class="price"></span> <button class="buy">Kaufen</button> <button class="sell">Verkaufen</button></div>
-<div class="good" data-id="stoffe">Stoffe: <span class="price"></span> <button class="buy">Kaufen</button> <button class="sell">Verkaufen</button></div>
-</section>
-
-<section id="inventoryPanel">
-<h2>Lager</h2>
-<ul>
-<li>Korn: <span id="inv-korn">0</span></li>
-<li>Holz: <span id="inv-holz">0</span></li>
-<li>Eisen: <span id="inv-eisen">0</span></li>
-<li>Wein: <span id="inv-wein">0</span></li>
-<li>Gewürze: <span id="inv-gewuerze">0</span></li>
-<li>Stoffe: <span id="inv-stoffe">0</span></li>
-</ul>
-</section>
-
-<section id="societyPanel">
-<h2>Bevölkerung</h2>
-<p>Zufriedenheit: <span id="soc-happiness">60</span></p>
-<p>Glaube: <span id="soc-faith">50</span></p>
-</section>
-
-<section id="politicsPanel">
-<h2>Politik</h2>
-<p>Titel: <span id="pol-title">Händler</span></p>
-<p>Steuer: <span id="pol-tax">10%</span></p>
-<button id="bribeBtn">Bestechen (Steuern senken)</button>
-</section>
-
-<section id="crimePanel">
-<h2>Verbrechen</h2>
-<p>Verdacht: <span id="crime-heat">0</span></p>
-<button id="sabotageBtn">Rivalen sabotieren</button>
-<button id="stealBtn">Gold stehlen</button>
-</section>
-
-<section id="researchPanel">
-<h2>Forschung</h2>
-<ul>
-<li>Buchhaltung: <span id="tech-bookkeeping">Gesperrt</span></li>
-<li>Versicherung: <span id="tech-insurance">Gesperrt</span></li>
-<li>Börse: <span id="tech-exchange">Gesperrt</span></li>
-</ul>
-</section>
-
-<section id="atmospherePanel">
-<h2>Umwelt</h2>
-<p>Zeit: <span id="atm-time">8</span>:00</p>
-<p>Wetter: <span id="atm-weather">klar</span></p>
-<p>Jahreszeit: <span id="atm-season">Frühling</span></p>
-</section>
-
-</main>
-
-<footer>
-<button id="nextDayBtn">Nächster Tag ▶</button>
-<div id="log"></div>
-</footer>
-
+<!-- Overlay Zettel -->
 <div id="overlay" class="hidden">
   <div id="overlayContent"></div>
   <button id="overlayClose">OK</button>
 </div>
 
+<!-- Scripts -->
 <script src="economy.js"></script>
 <script src="ai.js"></script>
 <script src="society.js"></script>
@@ -98,5 +107,6 @@ Schulden: <span id="ui-debt">0</span>
 <script src="atmosphere.js"></script>
 <script src="ui.js"></script>
 <script src="game.js"></script>
+
 </body>
 </html>
