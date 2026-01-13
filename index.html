@@ -9,7 +9,6 @@
 
 <div id="game">
 
-  <!-- ----------------- Header ----------------- -->
   <header>
     <h1>⚔️ Black Ledger</h1>
     <div id="topStats">
@@ -20,10 +19,8 @@
     </div>
   </header>
 
-  <!-- ----------------- Hauptbereich ----------------- -->
   <main>
 
-    <!-- Marktplatz -->
     <section id="marketPanel">
       <h2>Marktplatz</h2>
       <div class="good" data-id="korn">Korn: <span class="price"></span> 
@@ -52,7 +49,6 @@
       </div>
     </section>
 
-    <!-- Lager -->
     <section id="inventoryPanel">
       <h2>Lager</h2>
       <ul>
@@ -65,14 +61,12 @@
       </ul>
     </section>
 
-    <!-- Bevölkerung -->
     <section id="societyPanel">
       <h2>Bevölkerung</h2>
       <p>Zufriedenheit: <span id="soc-happiness">60</span></p>
       <p>Glaube: <span id="soc-faith">50</span></p>
     </section>
 
-    <!-- Politik -->
     <section id="politicsPanel">
       <h2>Politik</h2>
       <p>Titel: <span id="pol-title">Händler</span></p>
@@ -80,7 +74,6 @@
       <button id="bribeBtn">Bestechen</button>
     </section>
 
-    <!-- Verbrechen -->
     <section id="crimePanel">
       <h2>Verbrechen</h2>
       <p>Verdacht: <span id="crime-heat">0</span></p>
@@ -88,7 +81,6 @@
       <button id="stealBtn">Gold stehlen</button>
     </section>
 
-    <!-- Forschung -->
     <section id="researchPanel">
       <h2>Forschung</h2>
       <ul>
@@ -98,7 +90,6 @@
       </ul>
     </section>
 
-    <!-- Umwelt -->
     <section id="atmospherePanel">
       <h2>Umwelt</h2>
       <p>Zeit: <span id="atm-time">8</span>:00</p>
@@ -108,7 +99,6 @@
 
   </main>
 
-  <!-- ----------------- Footer ----------------- -->
   <footer>
     <button id="nextDayBtn">Nächster Tag ▶</button>
     <div id="log"></div>
@@ -116,13 +106,11 @@
 
 </div>
 
-<!-- ----------------- Overlay Zettel ----------------- -->
 <div id="overlay" class="hidden">
   <div id="overlayContent"></div>
   <button id="overlayClose">OK</button>
 </div>
 
-<!-- ----------------- Scripts ----------------- -->
 <script src="economy.js"></script>
 <script src="ai.js"></script>
 <script src="society.js"></script>
@@ -131,6 +119,7 @@
 <script src="research.js"></script>
 <script src="atmosphere.js"></script>
 <script src="ui.js"></script>
+<script src="animations.js"></script>
 <script src="game.js"></script>
 
 </body>
