@@ -1,22 +1,17 @@
 const Politics = (() => {
   let taxRate = 10;
-  let title = "Händler";
+  let lastBribeSuccess = false;
 
   function bestechen(playerState){
-    const kosten = 50;
-    if(playerState.gold >= kosten){
-      playerState.gold -= kosten;
-      taxRate = Math.max(0, taxRate - 3);
-      UI.update(playerState);
+    if(playerState.gold>=100){
+      playerState.gold -= 100;
+      taxRate = Math.max(0, taxRate-3);
+      lastBribeSuccess = true;
       return true;
     }
+    lastBribeSuccess=false;
     return false;
   }
 
-  function updateUI(){
-    document.getElementById("pol-tax").textContent = taxRate + "%";
-    document.getElementById("pol-title").textContent = title;
-  }
-
-  return {bestechen,updateUI,taxRate,title};
+  return {taxRate,bestechen,lastBribeSuccess};
 })();
