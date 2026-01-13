@@ -1,6 +1,47 @@
 const UI = (() => {
 
-  // UI aktualisieren: Tag, Gold, Lager, Preise
+  // Overlay-Container und Content
+  const overlay = document.getElementById("overlay");
+  const overlayContent = document.getElementById("overlayContent");
+  const overlayClose = document.getElementById("overlayClose");
+  const logDiv = document.getElementById("log");
+
+  // Initialisierung Overlay
+  overlay.classList.add("hidden"); // unsichtbar beim Start
+
+  // -------------------
+  // Overlay anzeigen
+  // -------------------
+  function showOverlay(text){
+    if(!text) return;
+    overlayContent.textContent = text;
+    overlay.classList.remove("hidden");
+    overlay.style.opacity = 0;
+    overlay.animate([{opacity:0},{opacity:1}], {duration:400, fill:"forwards"});
+  }
+
+  // Overlay schließen
+  overlayClose.addEventListener("click", ()=>{
+    overlay.animate([{opacity:1},{opacity:0}], {duration:300, fill:"forwards"}).onfinish = ()=>{
+      overlay.classList.add("hidden");
+    };
+  });
+
+  // -------------------
+  // Log-Funktion
+  // -------------------
+  function log(msg){
+    if(!msg) return;
+    const p = document.createElement("p");
+    p.textContent = msg;
+    logDiv.appendChild(p);
+    logDiv.scrollTop = logDiv.scrollHeight;
+    p.animate([{opacity:0},{opacity:1}], {duration:300});
+  }
+
+  // -------------------
+  // UI Update
+  // -------------------
   function update(state){
     document.getElementById("ui-day").textContent = state.tag;
     document.getElementById("ui-gold").textContent = state.gold.toFixed(0);
@@ -14,17 +55,9 @@ const UI = (() => {
     });
   }
 
-  // Log-Funktion für Marktbewegungen, KI und kleinere Events
-  function log(msg){
-    const el = document.getElementById("log");
-    const p = document.createElement("p");
-    p.textContent = msg;
-    el.appendChild(p);
-    el.scrollTop = el.scrollHeight;
-    p.animate([{opacity:0},{opacity:1}],{duration:300});
-  }
-
-  // Buttons binden
+  // -------------------
+  // Button-Bindings
+  // -------------------
   function bindButtons(){
     // Kaufen / Verkaufen
     document.querySelectorAll(".buy").forEach(btn=>{
@@ -43,48 +76,42 @@ const UI = (() => {
     // Bestechung
     document.getElementById("bribeBtn").addEventListener("click", ()=>{
       const erfolg = Politics.bestechen(Game.state);
-      UI.showOverlay(erfolg ? "Bestechung erfolgreich! Steuern gesenkt." : "Nicht genug Gold!");
-      UI.update(Game.state);
+      if(erfolg){
+        showOverlay("Bestechung erfolgreich! Steuern gesenkt.");
+      } else {
+        showOverlay("Nicht genug Gold für Bestechung!");
+      }
+      update(Game.state);
     });
 
     // Sabotage & Stehlen
     document.getElementById("sabotageBtn").addEventListener("click", ()=>{
       const msg = Crime.sabotage("Rivalen");
-      UI.showOverlay(msg);
+      showOverlay(msg);
     });
 
     document.getElementById("stealBtn").addEventListener("click", ()=>{
       const msg = Crime.stehlen(Game.state);
-      UI.showOverlay(msg);
-    });
-
-    // Overlay schließen
-    document.getElementById("overlayClose").addEventListener("click", ()=>{
-      document.getElementById("overlay").classList.add("hidden");
+      showOverlay(msg);
     });
   }
 
-  // Overlay anzeigen
-  function showOverlay(text){
-    if(!text) return;
-    const overlay = document.getElementById("overlay");
-    document.getElementById("overlayContent").textContent = text;
-    overlay.classList.remove("hidden");
-  }
-
-  // Init UI
+  // -------------------
+  // Init
+  // -------------------
   function init(){
-    // Overlay initial verstecken
-    const overlay = document.getElementById("overlay");
-    overlay.classList.add("hidden");
-
     bindButtons();
     update(Game.state);
     log("Willkommen bei Black Ledger!");
+
+    // Sicherstellen, dass Overlay **immer versteckt ist**
+    overlay.classList.add("hidden");
   }
 
-  return {update,log,init,showOverlay};
+  return {update,log,showOverlay,init};
 })();
 
-// UI initialisieren
+// -------------------
+// Fenster-Load
+// -------------------
 window.addEventListener("load", UI.init);
