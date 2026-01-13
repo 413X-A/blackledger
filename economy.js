@@ -1,36 +1,37 @@
 const Economy = (() => {
   const markt = {
-    korn:{preis:10,menge:100,nachfrage:100,region:"Süden",season:"Sommer"},
-    holz:{preis:20,menge:80,nachfrage:80,region:"Norden",season:"Herbst"},
-    eisen:{preis:40,menge:50,nachfrage:60,region:"Osten",season:"Frühling"},
-    wein:{preis:30,menge:40,nachfrage:50,region:"Süden",season:"Herbst"},
-    gewuerze:{preis:60,menge:20,nachfrage:30,region:"Osten",season:"Sommer"},
-    stoffe:{preis:25,menge:50,nachfrage:60,region:"Norden",season:"Frühling"}
+    korn: {preis:10, menge:50, nachfrage:50, season:"Sommer"},
+    holz: {preis:20, menge:40, nachfrage:40, season:"Winter"},
+    eisen: {preis:30, menge:20, nachfrage:30, season:"Herbst"},
+    wein: {preis:25, menge:30, nachfrage:25, season:"Herbst"},
+    gewuerze: {preis:50, menge:10, nachfrage:15, season:"Sommer"},
+    stoffe: {preis:35, menge:15, nachfrage:20, season:"Frühling"}
   };
-  let inflation = 1.0;
-  let schwarzmarkt = {aktiv:false,aufschlag:1.8};
 
-  function updatePreise(atmosphere, society){
-    const currentSeason = atmosphere.getSeason();
+  function getPreis(w) { return markt[w].preis; }
+
+  function updatePreise(playerState, rivals, society, atmosphere){
     for(let w in markt){
-      const m = markt[w];
-      const diff = m.nachfrage - m.menge;
+      let ware = markt[w];
+      // Nachfrage beeinflusst durch Bevölkerung
+      let nachfrage = ware.nachfrage + (society.happiness-50)*0.5;
 
-      // Saisonale Menge
-      let saisonFaktor = (m.season===currentSeason)?1.3:0.8;
-      // Wetter + Inflation
-      let wetterFaktor = (atmosphere.weather==="sturm"?1.2:1.0);
-      m.preis = Math.max(1, (m.preis + diff*0.05)*saisonFaktor*wetterFaktor*inflation);
-      // Menge leicht variieren
-      m.menge = Math.max(0, m.menge * (0.95 + Math.random()*0.1));
+      // Rivalen beeinflussen Markt
+      rivals.forEach(r=>{
+        if(r.inventar[w]) nachfrage += r.inventar[w]*0.8;
+      });
+
+      // Spieler beeinflusst direkt
+      nachfrage += playerState.inventar[w]*0.5;
+
+      // Saison und Wetter
+      let saisonFaktor = (ware.season === atmosphere.getSeason())? 1.2 : 0.8;
+      let wetterFaktor = (atmosphere.weather==="sturm")?1.3:1;
+
+      let diff = nachfrage - ware.menge;
+      ware.preis = Math.max(1, (ware.preis + diff*0.05)*saisonFaktor*wetterFaktor);
     }
   }
 
-  function getPreis(ware){
-    let p = markt[ware].preis;
-    if(schwarzmarkt.aktiv) p *= schwarzmarkt.aufschlag;
-    return p;
-  }
-
-  return {markt,updatePreise,getPreis};
+  return {markt,getPreis,updatePreise};
 })();
