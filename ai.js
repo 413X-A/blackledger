@@ -1,50 +1,18 @@
 const AI = (() => {
   const rivals = [
-    {name:"Gilde Norden", gold:500, inventar:{}, plan:{ziel:"Vorrat", wartezeit:0}},
-    {name:"Gilde Süden", gold:400, inventar:{}, plan:{ziel:"Spekulieren", wartezeit:0}}
+    {name:"Königs Handel", type:"Aggressiv", gold:500, inventar:{korn:10, holz:5,eisen:2,wein:0,gewuerze:0,stoffe:0}},
+    {name:"Silbermarkt", type:"Defensiv", gold:400, inventar:{korn:5, holz:5,eisen:5,wein:1,gewuerze:0,stoffe:0}}
   ];
 
-  function entscheidung(playerState, atmosphere, crime, politics, society){
-    Object.keys(Economy.markt).forEach(w=>{
-      rivals.forEach(rival=>{
-        // Langfristiger Plan
-        if(rival.plan.wartezeit>0) rival.plan.wartezeit--;
-        else{
-          switch(rival.plan.ziel){
-            case "Vorrat":
-              if(rival.gold>=Economy.markt[w].preis){
-                rival.inventar[w] = (rival.inventar[w]||0)+1;
-                rival.gold -= Economy.markt[w].preis;
-                UI.log(`${rival.name} legt Vorräte von ${w} an`);
-              }
-              rival.plan.wartezeit = 2; break;
-            case "Spekulieren":
-              if(Economy.markt[w].season===atmosphere.getSeason() && rival.gold>=Economy.markt[w].preis){
-                rival.inventar[w] = (rival.inventar[w]||0)+1;
-                rival.gold -= Economy.markt[w].preis;
-                UI.log(`${rival.name} spekuliert auf ${w}`);
-              }
-              rival.plan.wartezeit=1; break;
-          }
-        }
-
-        // Reagiere auf Spieler
-        if(playerState.inventar[w]>5){
-          if(rival.gold>=Economy.markt[w].preis){
-            rival.inventar[w] = (rival.inventar[w]||0)+1;
-            rival.gold -= Economy.markt[w].preis;
-            UI.showOverlay(`${rival.name} kauft große Mengen ${w} um Preis zu drücken!`);
-          }
-        }
-
-        // Reagiere auf Bestechung
-        if(politics.lastBribeSuccess){
-          rival.plan.ziel = "Preismanipulation";
-          UI.log(`${rival.name} reagiert auf Bestechung`);
-        }
-      });
+  function entscheidung(playerState, Atmosphere, Crime, Politics, Society){
+    rivals.forEach(r => {
+      // Einfaches KI Verhalten
+      const ware = Object.keys(r.inventar)[Math.floor(Math.random()*6)];
+      r.inventar[ware] += 1; // kaufen
+      UI.log(`${r.name} kauft 1 ${ware}`);
+      Animations.animateCoinForRival(ware, r.name);
     });
   }
 
-  return {rivals,entscheidung};
+  return {rivals, entscheidung};
 })();
