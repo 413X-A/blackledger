@@ -1,17 +1,12 @@
 const Politics = (() => {
-  let taxRate = 10;
-  let lastBribeSuccess = false;
-
-  function bestechen(playerState){
-    if(playerState.gold>=100){
-      playerState.gold -= 100;
-      taxRate = Math.max(0, taxRate-3);
-      lastBribeSuccess = true;
+  function bestechen(state){
+    if(state.gold>=50){
+      state.gold -=50;
+      state.reputation +=5;
       return true;
     }
-    lastBribeSuccess=false;
     return false;
   }
 
-  return {taxRate,bestechen,lastBribeSuccess};
+  return {bestechen};
 })();
