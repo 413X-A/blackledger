@@ -2,16 +2,20 @@ const Crime = (() => {
   let heat = 0;
 
   function sabotage(target){
-    heat += 10;
-    return `Sabotage gegen ${target} durchgeführt! Heat +10`;
+    heat +=5;
+    return `Sabotage gegen ${target} durchgeführt! Verdacht steigt.`;
   }
 
-  function stehlen(playerState){
-    heat += 5;
-    const gold = Math.min(50, playerState.gold);
-    playerState.gold -= gold;
-    return `Du wurdest bestohlen! Verlust: ${gold} Gold. Heat +5`;
+  function stehlen(state){
+    if(Math.random()<0.5){
+      const geld = Math.floor(Math.random()*50+10);
+      state.gold += geld;
+      heat += 5;
+      return `Du stiehlst ${geld} Gold!`;
+    }
+    heat +=5;
+    return "Die Aktion scheiterte!";
   }
 
-  return {heat,sabotage,stehlen};
+  return {sabotage, stehlen, heat};
 })();
